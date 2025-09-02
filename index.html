@@ -1,148 +1,42 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🎙️ AYducation – Schülerpodcast</title>
-<meta name="description" content="Schülerpodcast mit einfachen Erklärungen, Übungen und Beispielen. Öffentlich abspielbar. Admin-Export erzeugt episodes.json.">
-<style>
-  :root{
-    --bg:#0b1320; --panel:#0f2036; --ink:#eaf2ff; --muted:#a9bfd6; --accent:#6bdcff;
-    --ok:#22c55e; --warn:#ef4444; --line:#1b2e4a; --chip:#173253; --shadow:0 8px 28px rgba(0,0,0,.35);
-    --radius:16px; --radius-lg:22px; --maxw:1100px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1200px 1200px at 15% 0%, #103058 0%, #0b1320 45%, #081120 100%);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
-  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#27c3ff,#6bdcff);display:grid;place-items:center;box-shadow:var(--shadow)}
-  h1{margin:0;font-size:24px}
-  .muted{color:var(--muted)}
-  .hero{margin-top:8px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow)}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .chip{background:var(--chip);border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-top:22px}
-  @media(max-width:880px){.grid{grid-template-columns:1fr}}
-  .panel{background:rgba(8,18,36,.6);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
-  .episodes{display:grid;gap:12px}
-  .card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px}
-  .title{font-weight:700}
-  .meta{font-size:13px;color:var(--muted)}
-  .row{display:flex;gap:10px;align-items:center}
-  .btn{border:1px solid var(--line);padding:8px 12px;border-radius:12px;cursor:pointer}
-  .btn.primary{background:#1f4b7a;color:#fff}
-  .btn.danger{background:#7a1f1f;color:#fff}
-  footer{margin-top:20px;color:var(--muted);font-size:13px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎙️ AYducation – Schülerpodcast</title>
+  <style>
+    body {
+      margin:0;
+      font-family: system-ui, sans-serif;
+      background:#0b1320;
+      color:#eaf2ff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      text-align:center;
+      padding:20px;
+    }
+    a { color:#6bdcff; font-weight:bold; }
+    .box {
+      max-width:600px;
+      background:#0f2036;
+      padding:30px;
+      border-radius:16px;
+      box-shadow:0 8px 28px rgba(0,0,0,.35);
+    }
+    h1 { margin-top:0; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo">🎙️</div>
-      <div>
-        <h1>Schülerpodcast</h1>
-        <div class="muted">Argumentation & Erörterung – einfach erklärt</div>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <h2>🎧 Hören & Lernen</h2>
-    <p class="muted">Um den Podcast zu hören, klicke einfach auf den Link bei der Folge.</p>
-    <div class="chips">
-      <span class="chip">Prüfung: Erörterung</span>
-      <span class="chip">Einfache Sprache</span>
-    </div>
-  </section>
-
-  <div class="grid">
-    <section class="panel">
-      <h3>Folgen</h3>
-      <div id="episodes" class="episodes"></div>
-      <div id="emptyState" class="muted">Noch keine Folgen. Lade eine <code>episodes.json</code> hoch oder nutze den Admin-Export.</div>
-    </section>
-
-    <aside class="panel">
-      <h3>🔐 Admin</h3>
-      <div id="pinGate">
-        <input id="adminCode" type="password" placeholder="PIN" />
-        <button class="btn primary" id="openAdminBtn">Öffnen</button>
-        <div id="pinMsg" class="muted"></div>
-      </div>
-      <div id="adminBox" style="display:none">
-        <h4>➕ Folge hinzufügen</h4>
-        <input id="fTitle" placeholder="Titel" /><br><br>
-        <input id="fLen" placeholder="Dauer" /><br><br>
-        <input id="fUrl" placeholder="Audio-Quelle (z. B. media/Audio1.mp3)" /><br><br>
-        <textarea id="fDesc" placeholder="Beschreibung"></textarea><br><br>
-        <button class="btn primary" id="addBtn">Hinzufügen</button>
-        <button class="btn danger" id="exportBtn">Exportieren</button>
-        <button class="btn" id="closeAdminBtn">Schließen</button>
-      </div>
-    </aside>
+  <div class="box">
+    <h1>🎙️ AYducation – Schülerpodcast</h1>
+    <p>Gehe auf folgenden Link, um den Podcast zu hören:</p>
+    <p>
+      <a href="https://aydoaylin-web.github.io/Ayducation/Audio1.mp3" target="_blank">
+        https://aydoaylin-web.github.io/Ayducation/Audio1.mp3
+      </a>
+    </p>
   </div>
-
-  <footer>© <span id="year"></span> AYducation</footer>
-</div>
-
-<script>
-let EPISODES = [];
-
-function esc(s){return String(s||'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]))}
-function fmtDate(ts){return new Date(ts||Date.now()).toLocaleDateString('de-DE')}
-
-function render(){
-  const list=document.getElementById('episodes');
-  list.innerHTML='';
-  if(!EPISODES.length){document.getElementById('emptyState').style.display='block';return;}
-  document.getElementById('emptyState').style.display='none';
-  EPISODES.forEach(ep=>{
-    const card=document.createElement('div'); card.className='card';
-    card.innerHTML=`
-      <div class="title">${esc(ep.title)}</div>
-      <div class="meta">${ep.length?esc(ep.length)+' · ':''}${fmtDate(ep.ts)}</div>
-      <p>🎧 <a href="${esc(ep.src)}" target="_blank">Zum Hören hier klicken</a></p>
-      ${ep.desc?`<div>${esc(ep.desc)}</div>`:''}
-    `;
-    list.appendChild(card);
-  });
-}
-
-document.getElementById('addBtn').onclick=()=>{
-  const title=document.getElementById('fTitle').value.trim();
-  const src=document.getElementById('fUrl').value.trim();
-  if(!title||!src){alert('Titel und Quelle angeben!');return;}
-  EPISODES.unshift({title,src,length:document.getElementById('fLen').value.trim(),desc:document.getElementById('fDesc').value.trim(),ts:Date.now()});
-  render();
-};
-
-document.getElementById('exportBtn').onclick=()=>{
-  const blob=new Blob([JSON.stringify({episodes:EPISODES},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='episodes.json';a.click();
-};
-
-document.getElementById('openAdminBtn').onclick=()=>{
-  // einfache PIN: "1234"
-  if(document.getElementById('adminCode').value==='1234'){
-    document.getElementById('adminBox').style.display='block';
-    document.getElementById('pinGate').style.display='none';
-  } else document.getElementById('pinMsg').textContent='❌ Falsche PIN';
-};
-
-document.getElementById('closeAdminBtn').onclick=()=>{
-  document.getElementById('adminBox').style.display='none';
-  document.getElementById('pinGate').style.display='block';
-};
-
-(async function init(){
-  document.getElementById('year').textContent=new Date().getFullYear();
-  try{
-    const r=await fetch('episodes.json'); if(r.ok){const j=await r.json(); if(j.episodes) EPISODES=j.episodes;}
-  }catch{}
-  render();
-})();
-</script>
 </body>
 </html>
