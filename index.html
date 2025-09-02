@@ -12,31 +12,119 @@
       color:#eaf2ff;
       display:flex;
       justify-content:center;
-      align-items:center;
-      height:100vh;
+      align-items:flex-start;
+      min-height:100vh;
       text-align:center;
-      padding:20px;
+      padding:40px 20px;
     }
-    a { color:#6bdcff; font-weight:bold; }
     .box {
-      max-width:600px;
+      width:100%;
+      max-width:700px;
       background:#0f2036;
       padding:30px;
       border-radius:16px;
       box-shadow:0 8px 28px rgba(0,0,0,.35);
+      margin-bottom:20px;
     }
-    h1 { margin-top:0; }
+    h1, h2 { margin-top:0; }
+    a { color:#6bdcff; font-weight:bold; }
+    button {
+      padding:8px 12px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      background:#6bdcff;
+      color:#0b1320;
+      font-weight:bold;
+      margin:5px;
+    }
+    input { padding:6px 8px; border-radius:6px; border:none; margin:5px 0; width:80%; }
+    #adminBox { display:none; text-align:left; }
+    #linksList p { margin:10px 0; }
+    .deleteBtn { margin-left:10px; background:red; color:white; cursor:pointer; padding:2px 5px; border-radius:5px; }
   </style>
 </head>
 <body>
+
   <div class="box">
     <h1>🎙️ AYducation – Schülerpodcast</h1>
-    <p>Gehe auf folgenden Link, um den Podcast zu hören:</p>
-    <p>
-      <a href="https://aydoaylin-web.github.io/Ayducation/Audio1.mp3" target="_blank">
-        https://aydoaylin-web.github.io/Ayducation/Audio1.mp3
-      </a>
-    </p>
+    <div id="linksList">
+      <!-- Podcast-Links + Beschreibung -->
+    </div>
+    <button onclick="showAdminPrompt()">Admin Bereich 🔒</button>
   </div>
+
+  <div class="box" id="adminBox">
+    <h2>Admin Bereich</h2>
+    <p>Neuen Podcast hinzufügen:</p>
+    <input type="text" id="newLink" placeholder="Link z.B. https://..."><br>
+    <input type="text" id="newDesc" placeholder="Beschreibung (optional)"><br>
+    <button onclick="addPodcast()">Hinzufügen</button>
+    <h3>Bestehende Podcasts löschen:</h3>
+    <div id="adminLinksList"></div>
+  </div>
+
+<script>
+  // ==============================
+  // ADMIN PIN (hier ändern)
+  // ==============================
+  const adminPin = "1234";  // Ändere das Passwort hier direkt im Code
+
+  // ==============================
+  // PODCASTS
+  // ==============================
+  let podcasts = [
+    { link: "https://aydoaylin-web.github.io/Ayducation/Audio1.mp3", desc: "In diesem Podcast lernst du ..." }
+  ];
+
+  function renderPodcasts() {
+    const list = document.getElementById("linksList");
+    list.innerHTML = "";
+    podcasts.forEach(p => {
+      const pElem = document.createElement("p");
+      pElem.innerHTML = `<a href="${p.link}" target="_blank">${p.link}</a><br><small>${p.desc || ""}</small>`;
+      list.appendChild(pElem);
+    });
+
+    const adminList = document.getElementById("adminLinksList");
+    adminList.innerHTML = "";
+    podcasts.forEach((p, i) => {
+      const pElem = document.createElement("p");
+      pElem.innerHTML = `<a href="${p.link}" target="_blank">${p.link}</a> - ${p.desc || ""} 
+                         <span class="deleteBtn" onclick="deletePodcast(${i})">✖</span>`;
+      adminList.appendChild(pElem);
+    });
+  }
+
+  function deletePodcast(index) {
+    if(confirm("Willst du diesen Podcast wirklich löschen?")){
+      podcasts.splice(index,1);
+      renderPodcasts();
+    }
+  }
+
+  function addPodcast() {
+    const link = document.getElementById("newLink").value.trim();
+    const desc = document.getElementById("newDesc").value.trim();
+    if(link){
+      podcasts.push({link, desc});
+      document.getElementById("newLink").value = "";
+      document.getElementById("newDesc").value = "";
+      renderPodcasts();
+    }
+  }
+
+  function showAdminPrompt() {
+    const input = prompt("Gib den Admin-Pin ein:");
+    if(input === adminPin){
+      document.getElementById("adminBox").style.display = "block";
+    } else {
+      alert("Falscher Pin!");
+    }
+  }
+
+  renderPodcasts();
+</script>
+
 </body>
 </html>
