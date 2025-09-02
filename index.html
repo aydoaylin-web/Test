@@ -3,128 +3,348 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎙️ AYducation – Schülerpodcast</title>
+  <title>🎙️ AYducation: Der Schülerpodcast – Non-kommerzielles Bildungsprojekt</title>
   <style>
-    body {
-      margin:0;
-      font-family: system-ui, sans-serif;
-      background:#0b1320;
-      color:#eaf2ff;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      min-height:100vh;
-      text-align:center;
-      padding:40px 20px;
+    :root{
+      --bg:#0b1320; --panel:#0f2036; --ink:#eaf2ff; --muted:#a9bfd6; --accent:#6bdcff;
+      --ok:#22c55e; --warn:#ef4444; --line:#1b2e4a; --chip:#173253; --shadow:0 8px 28px rgba(0,0,0,.35);
+      --radius:16px; --radius-lg:22px; --maxw:1100px;
     }
-    .box {
-      width:100%;
-      max-width:700px;
-      background:#0f2036;
-      padding:30px;
-      border-radius:16px;
-      box-shadow:0 8px 28px rgba(0,0,0,.35);
-      margin-bottom:20px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:radial-gradient(1200px 1200px at 15% 0%, #103058 0%, #0b1320 45%, #081120 100%);
+      color:var(--ink);font:16px/1.6 "Inter", system-ui, Segoe UI, Roboto, Arial, sans-serif;
     }
-    h1, h2 { margin-top:0; }
-    a { color:#6bdcff; font-weight:bold; }
-    button {
-      padding:8px 12px;
-      border-radius:8px;
-      border:none;
-      cursor:pointer;
-      background:#6bdcff;
-      color:#0b1320;
-      font-weight:bold;
-      margin:5px;
+    body.lock{ overflow:hidden; } /* Scroll sperren, solange PIN-Overlay offen ist */
+
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg, #27c3ff, #6bdcff);display:grid;place-items:center;box-shadow:var(--shadow);overflow:hidden}
+    .logo img{max-width:100%;max-height:100%}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    .muted{color:var(--muted)}
+
+    .hero{margin-top:8px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px 22px 18px;box-shadow:var(--shadow)}
+    .hero h2{margin:0 0 8px;font-size:22px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{background:var(--chip);border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns: 1.3fr .7fr;gap:18px;margin-top:22px}
+    @media (max-width: 880px){ .grid{grid-template-columns: 1fr;}}
+
+    .panel{background:rgba(8,18,36,.6);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 8px;box-shadow:var(--shadow)}
+    .panel h3{margin:4px 0 12px;font-size:18px}
+
+    .episodes{display:grid;gap:12px}
+    .card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px}
+    .title{font-weight:700;font-size:18px}
+    .desc{margin-top:-6px;color:var(--muted)}
+
+    .row{display:flex;gap:10px;align-items:center}
+    .row > *{flex:1}
+    label{font-size:13px;color:var(--muted)}
+    input[type="text"], textarea, input[type="url"], input[type="password"]{
+      background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:12px;width:100%
     }
-    input { padding:6px 8px; border-radius:6px; border:none; margin:5px 0; width:80%; }
-    #adminBox { display:none; text-align:left; }
-    #linksList p { margin:10px 0; }
-    .deleteBtn { margin-left:10px; background:red; color:white; cursor:pointer; padding:2px 5px; border-radius:5px; }
+    textarea{min-height:96px;resize:vertical}
+    .btn{border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02));color:var(--ink);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{border-color:#1c3d63;background:linear-gradient(180deg,#2a83ae,#1f4b7a);color:#fff}
+    .btn.ghost{background:transparent}
+    .btn.danger{border-color:#5a1f1f}
+    .empty{color:var(--muted);text-align:center;padding:22px 8px;border:1px dashed var(--line);border-radius:14px}
+
+    footer{margin:24px 0 16px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Overlays */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .overlay.hidden{display:none}
+    .gate{max-width:420px;width:100%;background:rgba(8,18,36,.95);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:18px;text-align:center}
+    .gate h3{margin:6px 0 6px;font-size:20px}
+
+    .admin{display:none;margin-top:10px}
+    .admin.active{display:block}
   </style>
 </head>
-<body>
-
-  <div class="box">
-    <h1>🎙️ AYducation – Schülerpodcast</h1>
-    <div id="linksList">
-      <!-- Podcast-Links + Beschreibung -->
+<body class="lock">
+  <!-- Besucher-PIN -->
+  <div class="overlay" id="visitorOverlay">
+    <div class="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+      <!-- Logo sofort sichtbar im Overlay -->
+      <img id="overlayLogo" src="https://aydoaylin-web.github.io/Test/Logo_AYducation.png"
+           alt="AYducation Logo" style="max-width:120px;margin-bottom:10px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.4)">
+      <h3 id="gateTitle">🔑 Zugang</h3>
+      <p class="muted">Bitte PIN eingeben, um die Seite zu öffnen.</p>
+      <div class="row" style="margin-top:8px">
+        <input id="visitorPin" type="password" placeholder="Seiten-PIN" autofocus />
+        <button class="btn primary" id="visitorEnter">Öffnen</button>
+      </div>
+      <div id="visitorMsg" class="muted" style="margin-top:8px"></div>
     </div>
-    <button onclick="showAdminPrompt()">Admin Bereich 🔒</button>
   </div>
 
-  <div class="box" id="adminBox">
-    <h2>Admin Bereich</h2>
-    <p>Neuen Podcast hinzufügen:</p>
-    <input type="text" id="newLink" placeholder="Link z.B. https://..."><br>
-    <input type="text" id="newDesc" placeholder="Beschreibung (optional)"><br>
-    <button onclick="addPodcast()">Hinzufügen</button>
-    <h3>Bestehende Podcasts löschen:</h3>
-    <div id="adminLinksList"></div>
+  <!-- Hauptinhalt -->
+  <div class="wrap" id="app" style="display:none">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <!-- Logo sofort sichtbar im Header -->
+          <img id="logoImg" src="https://aydoaylin-web.github.io/Test/Logo_AYducation.png" alt="AYducation Logo">
+        </div>
+        <div>
+          <h1>AYducation – Der Schülerpodcast</h1>
+          <div class="muted">Argumentation & Erörterung – einfach erklärt</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="muted" id="modeBadge" aria-live="polite">👂 Hörenden-Ansicht</span>
+        <button class="btn ghost" id="adminReveal" title="Admin (PIN)">•••</button>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Podcast-Intro">
+      <h2>🎧 Hören & Lernen</h2>
+      <p class="muted">Hier findest du unseren Lernpodcast. Jede Folge hat eine kurze Beschreibung und einen Link zum Anhören.</p>
+      <div class="chips">
+        <span class="chip">Einfache Sprache</span>
+        <span class="chip">A1/A2</span>
+        <span class="chip">Deutsch als Zweitsprache</span>
+        <span class="chip">Prüfung: Erörterung</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Folgenliste -->
+      <section class="panel" aria-label="Episoden">
+        <h3>Folgen</h3>
+        <div id="episodes" class="episodes"></div>
+        <div id="emptyState" class="empty">Noch keine Folgen.</div>
+      </section>
+
+      <!-- Seitenleiste / Admin -->
+      <aside class="panel" aria-label="Infos">
+        <h3>Worum geht's?</h3>
+        <p>Wir erklären, wie man Argumente bildet und eine Erörterung schreibt – mit Beispielen, einfachen Wörtern und kurzen Übungen.</p>
+
+        <!-- Admin-Bereich -->
+        <div class="admin" id="admin" aria-hidden="true">
+          <hr style="border:0;border-top:1px solid var(--line);margin:12px 0">
+          <h3>🔒 Admin – Folge hinzufügen</h3>
+
+          <label style="margin-top:8px;display:block">Titel</label>
+          <input id="fTitle" type="text" placeholder="z. B. Argumente finden">
+
+          <label style="margin-top:8px;display:block">Beschreibung</label>
+          <textarea id="fDesc" placeholder="In diesem Podcast lernst du … (kurze Inhaltsangabe)"></textarea>
+
+          <label style="margin-top:8px;display:block">Podcast-URL (MP3)</label>
+          <input id="fUrl" type="url" placeholder="https://…/folge.mp3">
+
+          <div class="row" style="margin-top:10px">
+            <button class="btn primary" id="addEpisode">Podcast speichern</button>
+            <button class="btn" id="closeAdmin">Zur Hörenden-Ansicht</button>
+          </div>
+
+          <h3 style="margin-top:18px">🎨 Logo-URL setzen</h3>
+          <label>Logo-Bild (URL)</label>
+          <input id="fLogo" type="url" placeholder="https://…/logo.png">
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="setLogo">Logo übernehmen</button>
+            <button class="btn danger" id="clearLogo">Logo entfernen</button>
+          </div>
+
+          <h3 style="margin-top:18px">💾 Inhalte exportieren</h3>
+          <p class="muted">Kopiere dieses JSON und ersetze unten im Code die DATA-Konstante. Danach committen → dauerhaft gespeichert.</p>
+          <div class="row">
+            <button class="btn" id="exportBtn">JSON anzeigen/kopieren</button>
+          </div>
+          <textarea id="exportBox" style="margin-top:10px;display:none;height:160px"></textarea>
+        </div>
+      </aside>
+    </div>
+
+    <footer>© <span id="year"></span> Schülerpodcast</footer>
   </div>
 
-<script>
-  // ==============================
-  // ADMIN PIN (hier ändern)
-  // ==============================
-  const adminPin = "1234";  // Ändere das Passwort hier direkt im Code
+  <!-- Admin-Login -->
+  <div class="overlay hidden" id="adminOverlay" aria-hidden="true">
+    <div class="gate" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+      <h3 id="adminTitle">🔑 Admin-Login</h3>
+      <div class="row">
+        <input id="adminPin" type="password" placeholder="Admin-PIN" />
+        <button class="btn primary" id="adminEnter">Öffnen</button>
+      </div>
+      <div id="adminMsg" class="muted" style="margin-top:8px"></div>
+      <div style="margin-top:8px">
+        <button class="btn ghost" id="adminCancel">Abbrechen</button>
+      </div>
+    </div>
+  </div>
 
-  // ==============================
-  // PODCASTS
-  // ==============================
-  let podcasts = [
-    { link: "https://aydoaylin-web.github.io/Ayducation/Audio1.mp3", desc: "In diesem Podcast lernst du ..." }
-  ];
+  <script>
+    // ===== Feste PINs =====
+    const VISITOR_PIN = "Ayducation"; // Seiten-PIN
+    const ADMIN_PIN   = "1234";       // Admin-PIN (ändern)
 
-  function renderPodcasts() {
-    const list = document.getElementById("linksList");
-    list.innerHTML = "";
-    podcasts.forEach(p => {
-      const pElem = document.createElement("p");
-      pElem.innerHTML = `<a href="${p.link}" target="_blank">${p.link}</a><br><small>${p.desc || ""}</small>`;
-      list.appendChild(pElem);
+    // ===== PERSISTENTE DATEN IM CODE =====
+    let DATA = {
+      logoUrl: "https://aydoaylin-web.github.io/Test/Logo_AYducation.png",
+      episodes: [
+        {
+          title: "Folge 1: Argumentation einfach erklärt",
+          desc: "In diesem Podcast lernst du, wie du eine Meinung begründest und Beispiele nutzt.",
+          url: "https://aydoaylin-web.github.io/Ayducation/Audio1.mp3"
+        }
+      ]
+    };
+
+    // ===== DOM =====
+    const app            = document.getElementById("app");
+    const visitorOverlay = document.getElementById("visitorOverlay");
+    const episodesEl     = document.getElementById("episodes");
+    const emptyState     = document.getElementById("emptyState");
+    const adminPanel     = document.getElementById("admin");
+    const modeBadge      = document.getElementById("modeBadge");
+    const logoImg        = document.getElementById("logoImg");
+    const overlayLogo    = document.getElementById("overlayLogo");
+    const exportBox      = document.getElementById("exportBox");
+
+    // --- PIN-Overlay: Fokus + Enter ---
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const pinInput = document.getElementById('visitorPin');
+      setTimeout(()=>pinInput.focus(),0);
+      pinInput.addEventListener('keydown', e=>{
+        if(e.key === 'Enter') document.getElementById('visitorEnter').click();
+      });
     });
 
-    const adminList = document.getElementById("adminLinksList");
-    adminList.innerHTML = "";
-    podcasts.forEach((p, i) => {
-      const pElem = document.createElement("p");
-      pElem.innerHTML = `<a href="${p.link}" target="_blank">${p.link}</a> - ${p.desc || ""} 
-                         <span class="deleteBtn" onclick="deletePodcast(${i})">✖</span>`;
-      adminList.appendChild(pElem);
+    // Besucher-PIN (Scroll entsperren bei Erfolg)
+    document.getElementById("visitorEnter").addEventListener("click", ()=>{
+      const ok = document.getElementById("visitorPin").value === VISITOR_PIN;
+      if(ok){
+        document.getElementById("visitorPin").value = "";
+        document.getElementById("visitorOverlay").classList.add("hidden");
+        document.body.classList.remove('lock'); // Scroll wieder erlauben
+        app.style.display = "block";
+      } else {
+        document.getElementById("visitorMsg").textContent = "❌ Falscher PIN";
+      }
     });
-  }
 
-  function deletePodcast(index) {
-    if(confirm("Willst du diesen Podcast wirklich löschen?")){
-      podcasts.splice(index,1);
-      renderPodcasts();
+    // Admin öffnen/zu
+    document.getElementById("adminReveal").addEventListener("click", ()=>{
+      const overlay = document.getElementById("adminOverlay");
+      overlay.classList.remove("hidden");
+      overlay.setAttribute("aria-hidden","false");
+      document.getElementById("adminPin").focus();
+    });
+    document.getElementById("adminCancel").addEventListener("click", ()=>{
+      const overlay = document.getElementById("adminOverlay");
+      overlay.classList.add("hidden");
+      overlay.setAttribute("aria-hidden","true");
+      document.getElementById("adminPin").value = "";
+    });
+    document.getElementById("adminEnter").addEventListener("click", ()=>{
+      const ok = document.getElementById("adminPin").value === ADMIN_PIN;
+      if(ok){
+        document.getElementById("adminOverlay").classList.add("hidden");
+        document.getElementById("adminOverlay").setAttribute("aria-hidden","true");
+        adminPanel.classList.add("active");
+        adminPanel.setAttribute("aria-hidden","false");
+        modeBadge.textContent = "🛠️ Admin-Ansicht";
+        document.getElementById("adminPin").value = "";
+      } else {
+        document.getElementById("adminMsg").textContent = "❌ Falscher Admin-PIN";
+      }
+    });
+    document.getElementById("closeAdmin").addEventListener("click", ()=>{
+      adminPanel.classList.remove("active");
+      adminPanel.setAttribute("aria-hidden","true");
+      modeBadge.textContent = "👂 Hörenden-Ansicht";
+    });
+
+    // Folgen rendern
+    function renderEpisodes(){
+      episodesEl.innerHTML = "";
+      const list = Array.isArray(DATA.episodes) ? DATA.episodes : [];
+      if(!list.length){
+        emptyState.style.display = "block";
+        return;
+      }
+      emptyState.style.display = "none";
+      list.forEach(ep=>{
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="title">${escapeHtml(ep.title||"Ohne Titel")}</div>
+          <div class="desc">${escapeHtml(ep.desc||"")}</div>
+          <a href="${escapeAttr(ep.url||"#")}" target="_blank" rel="noopener">▶️ Podcast anhören</a>
+        `;
+        episodesEl.appendChild(card);
+      });
     }
-  }
 
-  function addPodcast() {
-    const link = document.getElementById("newLink").value.trim();
-    const desc = document.getElementById("newDesc").value.trim();
-    if(link){
-      podcasts.push({link, desc});
-      document.getElementById("newLink").value = "";
-      document.getElementById("newDesc").value = "";
-      renderPodcasts();
+    // Neue Folge (im RAM – danach Export & in DATA einsetzen)
+    document.getElementById("addEpisode").addEventListener("click", ()=>{
+      const title = (document.getElementById("fTitle").value||"").trim();
+      const desc  = (document.getElementById("fDesc").value||"").trim();
+      const url   = (document.getElementById("fUrl").value||"").trim();
+      if(!title || !url){ alert("Bitte mindestens Titel und URL angeben."); return; }
+      if(!Array.isArray(DATA.episodes)) DATA.episodes = [];
+      DATA.episodes.unshift({ title, desc, url });
+      renderEpisodes();
+      document.getElementById("fTitle").value = "";
+      document.getElementById("fDesc").value  = "";
+      document.getElementById("fUrl").value   = "";
+    });
+
+    // Logo-URL (im RAM – danach Export & in DATA einsetzen)
+    document.getElementById("setLogo").addEventListener("click", ()=>{
+      const url = (document.getElementById("fLogo").value||"").trim();
+      if(!url){ alert("Bitte Logo-URL angeben."); return; }
+      DATA.logoUrl = url;
+      renderLogo();
+      document.getElementById("fLogo").value = "";
+    });
+    document.getElementById("clearLogo").addEventListener("click", ()=>{
+      DATA.logoUrl = "";
+      renderLogo();
+    });
+
+    function renderLogo(){
+      // Header & Overlay Logo gleichzeitig aktualisieren
+      if(DATA.logoUrl){
+        logoImg.src = DATA.logoUrl;
+        logoImg.alt = "AYducation Logo";
+        overlayLogo.src = DATA.logoUrl;
+        overlayLogo.alt = "AYducation Logo";
+      } else {
+        logoImg.removeAttribute("src");
+        logoImg.alt = "";
+        overlayLogo.removeAttribute("src");
+        overlayLogo.alt = "";
+      }
     }
-  }
 
-  function showAdminPrompt() {
-    const input = prompt("Gib den Admin-Pin ein:");
-    if(input === adminPin){
-      document.getElementById("adminBox").style.display = "block";
-    } else {
-      alert("Falscher Pin!");
-    }
-  }
+    // Export: JSON anzeigen zum Kopieren
+    document.getElementById("exportBtn").addEventListener("click", ()=>{
+      const payload = JSON.stringify(DATA, null, 2);
+      exportBox.style.display = "block";
+      exportBox.value = payload;
+      exportBox.select();
+      try{ document.execCommand("copy"); }catch(e){}
+    });
 
-  renderPodcasts();
-</script>
+    // Utils
+    function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    function escapeAttr(s){ return String(s||"").replace(/"/g,'&quot;'); }
 
+    // Init – Logo & Startfolge sofort sichtbar (Bilder sind bereits per HTML gesetzt)
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderEpisodes();
+  </script>
 </body>
 </html>
