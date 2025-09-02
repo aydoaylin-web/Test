@@ -12,328 +12,136 @@
     --radius:16px; --radius-lg:22px; --maxw:1100px;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:radial-gradient(1200px 1200px at 15% 0%, #103058 0%, #0b1320 45%, #081120 100%);color:var(--ink);font:16px/1.6 system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif}
-  a{color:var(--accent);text-decoration:none}
+  body{margin:0;background:radial-gradient(1200px 1200px at 15% 0%, #103058 0%, #0b1320 45%, #081120 100%);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:24px}
   header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
   .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg, #27c3ff, #6bdcff);display:grid;place-items:center;box-shadow:var(--shadow)}
-  h1{margin:0;font-size:24px;letter-spacing:.2px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#27c3ff,#6bdcff);display:grid;place-items:center;box-shadow:var(--shadow)}
+  h1{margin:0;font-size:24px}
   .muted{color:var(--muted)}
-  .hero{margin-top:8px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px 22px 18px;box-shadow:var(--shadow)}
-  .hero h2{margin:0 0 8px;font-size:22px}
+  .hero{margin-top:8px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow)}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .chip{background:var(--chip);border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns: 1.3fr .7fr;gap:18px;margin-top:22px}
-  @media (max-width:880px){.grid{grid-template-columns:1fr}}
-  .panel{background:rgba(8,18,36,.6);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 8px;box-shadow:var(--shadow)}
-  .panel h3{margin:4px 0 12px;font-size:18px}
+  .grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-top:22px}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  .panel{background:rgba(8,18,36,.6);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
   .episodes{display:grid;gap:12px}
   .card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:10px}
   .title{font-weight:700}
   .meta{font-size:13px;color:var(--muted)}
-  audio{width:100%;outline:none}
-  audio::-webkit-media-controls-enclosure{border-radius:12px;background:rgba(255,255,255,.06)}
-  audio[controls]{filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
   .row{display:flex;gap:10px;align-items:center}
-  .row>*{flex:1}
-  label{font-size:13px;color:var(--muted)}
-  input[type="text"],textarea,input[type="url"],input[type="password"]{
-    background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:12px;width:100%
-  }
-  textarea{min-height:96px;resize:vertical}
-  .btn{border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02));color:var(--ink);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
-  .btn:hover{transform:translateY(-1px)}
-  .btn.primary{border-color:#1c3d63;background:linear-gradient(180deg,#2a83ae,#1f4b7a)}
-  .btn.ghost{background:transparent}
-  .danger{color:#ffd2d2}
-  .tag{font-size:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);padding:3px 8px;border-radius:999px;color:var(--muted)}
-  .admin{display:none;margin-top:10px}
-  .admin.active{display:block}
-  .pin-gate{display:block;margin-top:6px}
-  .pin-msg{font-size:13px;color:var(--muted);margin-top:6px}
+  .btn{border:1px solid var(--line);padding:8px 12px;border-radius:12px;cursor:pointer}
+  .btn.primary{background:#1f4b7a;color:#fff}
+  .btn.danger{background:#7a1f1f;color:#fff}
   footer{margin-top:20px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true">🎙️</div>
-        <div>
-          <h1>Schülerpodcast</h1>
-          <div class="muted">Argumentation & Erörterung – einfach erklärt</div>
-        </div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">🎙️</div>
+      <div>
+        <h1>Schülerpodcast</h1>
+        <div class="muted">Argumentation & Erörterung – einfach erklärt</div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="hero" aria-label="Podcast-Intro">
-      <h2>🎧 Hören & Lernen</h2>
-      <p class="muted">Drücke auf ▶️. Für beste Kompatibilität nutze MP3 oder M4A (type=&quot;audio/mp4&quot;).</p>
-      <div class="chips">
-        <span class="chip">Prüfung: Erörterung</span>
-        <span class="chip">Einfache Sprache</span>
-      </div>
+  <section class="hero">
+    <h2>🎧 Hören & Lernen</h2>
+    <p class="muted">Um den Podcast zu hören, klicke einfach auf den Link bei der Folge.</p>
+    <div class="chips">
+      <span class="chip">Prüfung: Erörterung</span>
+      <span class="chip">Einfache Sprache</span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel">
+      <h3>Folgen</h3>
+      <div id="episodes" class="episodes"></div>
+      <div id="emptyState" class="muted">Noch keine Folgen. Lade eine <code>episodes.json</code> hoch oder nutze den Admin-Export.</div>
     </section>
 
-    <div class="grid">
-      <section class="panel" aria-label="Episoden">
-        <h3>Folgen</h3>
-        <div id="episodes" class="episodes"></div>
-        <div id="emptyState" class="muted">Noch keine Folgen. Lade eine <code>episodes.json</code> hoch oder nutze den Admin-Export.</div>
-      </section>
-
-      <aside class="panel" aria-label="Admin & Infos">
-        <h3>🔐 Admin</h3>
-        <div class="pin-gate" id="pinGate">
-          <label for="adminCode">PIN eingeben</label>
-          <div class="row">
-            <input id="adminCode" type="password" inputmode="numeric" placeholder="PIN" maxlength="32" />
-            <button class="btn primary" id="openAdminBtn">Öffnen</button>
-          </div>
-          <div class="pin-msg" id="pinMsg"></div>
-          <div class="muted" style="margin-top:8px">Erstnutzung? <button class="btn ghost" id="setupBtn" title="PIN setzen">PIN setzen</button></div>
-        </div>
-
-        <div class="admin" id="adminBox">
-          <hr style="border:0;border-top:1px solid var(--line);margin:12px 0">
-          <h3>➕ Folge hinzufügen / bearbeiten</h3>
-          <div class="row">
-            <div>
-              <label>Titel</label>
-              <input id="fTitle" type="text" placeholder="z. B. Was ist ein Argument?" />
-            </div>
-            <div>
-              <label>Dauer (optional)</label>
-              <input id="fLen" type="text" placeholder="z. B. 10:32" />
-            </div>
-          </div>
-
-          <label style="margin-top:8px;display:block">Audio-Quelle (URL oder relativer Pfad)</label>
-          <input id="fUrl" type="url" placeholder="media/folge1.mp3 oder https://…/folge1.m4a" />
-
-          <label style="margin-top:8px;display:block">Kurzbeschreibung (optional)</label>
-          <textarea id="fDesc" placeholder="Worum geht's?"></textarea>
-
-          <label style="margin-top:8px;display:block">Transkript (optional)</label>
-          <textarea id="fTxt" placeholder="Transkript…"></textarea>
-
-          <div class="row" style="margin-top:10px">
-            <button class="btn primary" id="addBtn">In Liste übernehmen</button>
-            <button class="btn" id="clearBtn">Felder leeren</button>
-          </div>
-
-          <h3 style="margin-top:16px">🗂️ Aktuelle Folgenliste</h3>
-          <div id="adminList" class="episodes" style="max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:8px"></div>
-
-          <div class="row" style="margin-top:10px">
-            <button class="btn" id="exportBtn" title="episodes.json herunterladen">Exportieren</button>
-            <button class="btn danger" id="wipeBtn" title="Liste leeren">Liste leeren</button>
-            <button class="btn ghost" id="closeAdminBtn">Admin verlassen</button>
-          </div>
-
-          <p class="muted" style="margin-top:8px">
-            ⚠️ Speicher-Prinzip: Diese Seite lädt öffentlich aus <code>episodes.json</code>.  
-            Über „Exportieren“ lädst du eine neue <code>episodes.json</code> herunter und legst sie im Repo ab.  
-            Audios müssen öffentlich erreichbar sein (z. B. <code>media/…</code>).
-          </p>
-        </div>
-
-        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
-        <h3>Hinweise</h3>
-        <ul class="muted">
-          <li>MP3: <code>type="audio/mpeg"</code>, M4A: <code>type="audio/mp4"</code></li>
-          <li>Git LFS nicht verwenden für Audios.</li>
-        </ul>
-      </aside>
-    </div>
-
-    <footer>© <span id="year"></span> AYducation – Öffentliche Abspielfunktion</footer>
+    <aside class="panel">
+      <h3>🔐 Admin</h3>
+      <div id="pinGate">
+        <input id="adminCode" type="password" placeholder="PIN" />
+        <button class="btn primary" id="openAdminBtn">Öffnen</button>
+        <div id="pinMsg" class="muted"></div>
+      </div>
+      <div id="adminBox" style="display:none">
+        <h4>➕ Folge hinzufügen</h4>
+        <input id="fTitle" placeholder="Titel" /><br><br>
+        <input id="fLen" placeholder="Dauer" /><br><br>
+        <input id="fUrl" placeholder="Audio-Quelle (z. B. media/Audio1.mp3)" /><br><br>
+        <textarea id="fDesc" placeholder="Beschreibung"></textarea><br><br>
+        <button class="btn primary" id="addBtn">Hinzufügen</button>
+        <button class="btn danger" id="exportBtn">Exportieren</button>
+        <button class="btn" id="closeAdminBtn">Schließen</button>
+      </div>
+    </aside>
   </div>
 
+  <footer>© <span id="year"></span> AYducation</footer>
+</div>
+
 <script>
-/* ============= Mini-Store (im Speicher) ============= */
-let EPISODES = [];   // { title, length, src, desc, txt, ts }
-const $  = (s,p=document)=>p.querySelector(s);
-const $$ = (s,p=document)=>Array.from(p.querySelectorAll(s));
+let EPISODES = [];
 
-/* ============= PIN / Admin-Gate ============= */
-const CONFIG_KEY = 'ayducation.config.v1'; // { pinHash }
-function b64(s){ try{return btoa(unescape(encodeURIComponent(String(s))))}catch{ return btoa(String(s)) } }
-function getCfg(){ try{ return JSON.parse(localStorage.getItem(CONFIG_KEY)) || {} }catch{ return {} } }
-function setCfg(v){ localStorage.setItem(CONFIG_KEY, JSON.stringify(v)); }
-function hashPin(pin){ return b64(`pin:${pin}`) }
+function esc(s){return String(s||'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]))}
+function fmtDate(ts){return new Date(ts||Date.now()).toLocaleDateString('de-DE')}
 
-function showAdmin(){ $('#adminBox').classList.add('active'); $('#pinGate').style.display='none'; sessionStorage.setItem('ayducation.pin.ok','1'); renderAdminList(); }
-function hideAdmin(){ $('#adminBox').classList.remove('active'); $('#pinGate').style.display='block'; sessionStorage.removeItem('ayducation.pin.ok'); $('#adminCode').value=''; $('#pinMsg').textContent=''; }
-
-$('#setupBtn').addEventListener('click', ()=>{
-  const a = prompt('Neue PIN festlegen:');
-  if(!a) return;
-  const b = prompt('PIN wiederholen:');
-  if(a!==b){ alert('PIN stimmt nicht überein.'); return; }
-  setCfg({pinHash: hashPin(a)});
-  alert('PIN gespeichert.');
-});
-
-$('#openAdminBtn').addEventListener('click', ()=>{
-  const pin = ($('#adminCode').value||'').trim();
-  if(!pin){ $('#pinMsg').textContent='Bitte PIN eingeben.'; return; }
-  const ok = hashPin(pin) === (getCfg().pinHash||'');
-  if(ok) showAdmin(); else $('#pinMsg').textContent='❌ Falsche PIN.';
-});
-$('#closeAdminBtn').addEventListener('click', hideAdmin);
-
-/* ============= Render Public List ============= */
-function mimeFromSrc(u=''){
-  const x=(u||'').toLowerCase().split('?')[0];
-  if(x.endsWith('.mp3')) return 'audio/mpeg';
-  if(x.endsWith('.m4a')||x.endsWith('.mp4')) return 'audio/mp4';
-  return '';
-}
-function fmtDate(ts){ try{ return new Date(ts||Date.now()).toLocaleDateString('de-DE',{year:'numeric',month:'short',day:'2-digit'}) }catch{ return '' } }
-function esc(s){ return String(s||'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m])) }
-
-async function loadEpisodesJson(){
-  // Lädt episodes.json aus gleichem Ordner. Wenn nicht vorhanden: Dummy.
-  try{
-    const r = await fetch('episodes.json', {cache:'no-store'});
-    if(!r.ok) throw 0;
-    const j = await r.json();
-    if(Array.isArray(j.episodes)) EPISODES = j.episodes;
-  }catch(e){
-    // Fallback: Beispiel, damit Seite „lebt“
-    EPISODES = [
-      {
-        title:"Beispiel – Was ist ein Argument?",
-        length:"02:15",
-        src:"media/folge1.mp3",
-        desc:"Kurze Einführung in Behauptung, Begründung, Beispiel.",
-        txt:"",
-        ts: Date.now()
-      }
-    ];
-  }
-}
-
-function renderPublic(){
-  const list = $('#episodes');
-  list.innerHTML = '';
-  if(!EPISODES.length){ $('#emptyState').style.display='block'; return; }
-  $('#emptyState').style.display='none';
-
-  EPISODES.forEach((ep, idx)=>{
-    const card = document.createElement('article');
-    card.className = 'card';
-    const type = mimeFromSrc(ep.src);
-    card.innerHTML = `
-      <div class="row" style="align-items:flex-start">
-        <div style="flex:1">
-          <div class="title">${esc(ep.title||'Ohne Titel')}</div>
-          <div class="meta">${ep.length?esc(ep.length)+' · ':''}${fmtDate(ep.ts)}</div>
-        </div>
-      </div>
-      <audio controls preload="none">
-        <source src="${esc(ep.src||'')}" ${type?`type="${type}"`:''}>
-        Dein Browser kann dieses Audio nicht abspielen.
-      </audio>
+function render(){
+  const list=document.getElementById('episodes');
+  list.innerHTML='';
+  if(!EPISODES.length){document.getElementById('emptyState').style.display='block';return;}
+  document.getElementById('emptyState').style.display='none';
+  EPISODES.forEach(ep=>{
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`
+      <div class="title">${esc(ep.title)}</div>
+      <div class="meta">${ep.length?esc(ep.length)+' · ':''}${fmtDate(ep.ts)}</div>
+      <p>🎧 <a href="${esc(ep.src)}" target="_blank">Zum Hören hier klicken</a></p>
       ${ep.desc?`<div>${esc(ep.desc)}</div>`:''}
-      ${ep.txt?`<details><summary>Transkript anzeigen</summary><div style="white-space:pre-wrap">${esc(ep.txt)}</div></details>`:''}
-      <div class="meta">Quelle: ${ep.src?.startsWith('http')?'URL':'Pfad'}</div>
     `;
     list.appendChild(card);
   });
 }
 
-/* ============= Admin: hinzufügen / liste / export ============= */
-function clearForm(){ ['#fTitle','#fLen','#fUrl','#fDesc','#fTxt'].forEach(s=>$(s).value=''); }
-$('#clearBtn').addEventListener('click', clearForm);
+document.getElementById('addBtn').onclick=()=>{
+  const title=document.getElementById('fTitle').value.trim();
+  const src=document.getElementById('fUrl').value.trim();
+  if(!title||!src){alert('Titel und Quelle angeben!');return;}
+  EPISODES.unshift({title,src,length:document.getElementById('fLen').value.trim(),desc:document.getElementById('fDesc').value.trim(),ts:Date.now()});
+  render();
+};
 
-$('#addBtn').addEventListener('click', ()=>{
-  const title = $('#fTitle').value.trim();
-  const length= $('#fLen').value.trim();
-  const src   = $('#fUrl').value.trim();
-  const desc  = $('#fDesc').value.trim();
-  const txt   = $('#fTxt').value.trim();
-  if(!title){ alert('Bitte Titel angeben.'); return; }
-  if(!src){ alert('Bitte Audio-Quelle (URL oder Pfad) angeben.'); return; }
-  EPISODES.unshift({title, length, src, desc, txt, ts: Date.now()});
-  clearForm();
-  renderAdminList();
-  renderPublic();
-});
+document.getElementById('exportBtn').onclick=()=>{
+  const blob=new Blob([JSON.stringify({episodes:EPISODES},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='episodes.json';a.click();
+};
 
-function renderAdminList(){
-  const box = $('#adminList');
-  box.innerHTML = '';
-  if(!EPISODES.length){ box.innerHTML = '<div class="muted">Leer.</div>'; return; }
-  EPISODES.forEach((ep, idx)=>{
-    const item = document.createElement('div');
-    item.className='card';
-    item.innerHTML = `
-      <div class="row">
-        <div style="flex:1">
-          <div class="title">${esc(ep.title)}</div>
-          <div class="meta">${ep.length?esc(ep.length)+' · ':''}${esc(ep.src)}</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-          <button class="btn" data-edit="${idx}">Bearb.</button>
-          <button class="btn danger" data-del="${idx}">Löschen</button>
-          <button class="btn ghost" data-up="${idx}" title="nach oben">↑</button>
-          <button class="btn ghost" data-down="${idx}" title="nach unten">↓</button>
-        </div>
-      </div>
-    `;
-    box.appendChild(item);
-  });
+document.getElementById('openAdminBtn').onclick=()=>{
+  // einfache PIN: "1234"
+  if(document.getElementById('adminCode').value==='1234'){
+    document.getElementById('adminBox').style.display='block';
+    document.getElementById('pinGate').style.display='none';
+  } else document.getElementById('pinMsg').textContent='❌ Falsche PIN';
+};
 
-  // Delegation
-  box.onclick = (e)=>{
-    const t=e.target;
-    if(!(t instanceof HTMLElement)) return;
-    if(t.dataset.del){
-      const i=+t.dataset.del; EPISODES.splice(i,1); renderAdminList(); renderPublic();
-    }
-    if(t.dataset.edit){
-      const i=+t.dataset.edit; const ep=EPISODES[i];
-      $('#fTitle').value=ep.title||''; $('#fLen').value=ep.length||''; $('#fUrl').value=ep.src||'';
-      $('#fDesc').value=ep.desc||''; $('#fTxt').value=ep.txt||'';
-      // beim Speichern besser neu hinzufügen -> oben landen
-    }
-    if(t.dataset.up){
-      const i=+t.dataset.up; if(i>0){ [EPISODES[i-1],EPISODES[i]]=[EPISODES[i],EPISODES[i-1]]; renderAdminList(); renderPublic(); }
-    }
-    if(t.dataset.down){
-      const i=+t.dataset.down; if(i<EPISODES.length-1){ [EPISODES[i+1],EPISODES[i]]=[EPISODES[i],EPISODES[i+1]]; renderAdminList(); renderPublic(); }
-    }
-  };
-}
-
-$('#exportBtn').addEventListener('click', ()=>{
-  const payload = { episodes: EPISODES };
-  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'episodes.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-
-$('#wipeBtn').addEventListener('click', ()=>{
-  if(confirm('Wirklich die komplette Liste leeren?')){
-    EPISODES = [];
-    renderAdminList(); renderPublic();
-  }
-});
-
-/* ============= Init ============= */
-$('#year').textContent = new Date().getFullYear();
-if(sessionStorage.getItem('ayducation.pin.ok')==='1') showAdmin();
+document.getElementById('closeAdminBtn').onclick=()=>{
+  document.getElementById('adminBox').style.display='none';
+  document.getElementById('pinGate').style.display='block';
+};
 
 (async function init(){
-  await loadEpisodesJson();
-  renderPublic();
+  document.getElementById('year').textContent=new Date().getFullYear();
+  try{
+    const r=await fetch('episodes.json'); if(r.ok){const j=await r.json(); if(j.episodes) EPISODES=j.episodes;}
+  }catch{}
+  render();
 })();
 </script>
 </body>
